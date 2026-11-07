@@ -72,9 +72,9 @@ jobs:
         with:
           script: |
             const commit = await github.rest.repos.getCommit({
-              owner: 'mpv-player',
+              owner: 'CKopoer',
               repo: 'mpv',
-              ref: `master`
+              ref: `88eb9f2e73945d8bc9c133a2f67babaa9af34680`
             })
             core.setOutput('sha', String(commit.data.sha))
             
@@ -384,6 +384,7 @@ jobs:
         run: |
           chmod +x build.sh
           cd mpv-winbuild-cmake
+          python3 ../pin-mpv-source.py
           if [[ "$(ls -A ../patch/*.patch)" ]]; then
             for patch in ../patch/*.patch ; do
               git am --3way "$patch" || git am --abort
@@ -660,7 +661,7 @@ jobs:
         with:
           script: |
             const sha = `${{ needs.params.outputs.sha }}`;
-            let note = `**MPV Git commit**: https://github.com/mpv-player/mpv/commit/${sha}\n`;
+            let note = `**MPV Git commit**: https://github.com/CKopoer/mpv/commit/${sha}\n`;
             note+="**Build Time**: ${{ env.long_time }}\n";
             note+="**Compiler**: ${{ inputs.compiler }}\n";
             note+="**Build Details**: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}\n";
